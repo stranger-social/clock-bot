@@ -51,6 +51,11 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     id: Optional[str] = None
 
+class ApiToken(BaseModel):
+    user_id: int
+    access_token: str
+    token_type: str
+
 class Vote(BaseModel):
     post_id: int
     dir: conint(le=1)

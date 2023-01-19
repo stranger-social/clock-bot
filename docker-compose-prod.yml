@@ -3,7 +3,7 @@ services:
   api:
     image: azcoigreach/python-api
     ports:
-      - 80:8000
+      - ${API_PORT}:8000
     environment:
       - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
       - DATABASE_PORT=${DATABASE_PORT}
@@ -14,16 +14,16 @@ services:
       - ALGORITHM=${ALGORITHM}
       - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
 
-    depends_on:
-      - postgres
+  #   depends_on:
+  #     - postgres
 
-  postgres:
-    image: postgres
-    environment:
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_DB=${DATABASE_NAME}
-    volumes:
-      - postgres-db:/var/lib/postgresql/data
+  # postgres:
+  #   image: postgres
+  #   environment:
+  #     - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+  #     - POSTGRES_DB=${DATABASE_NAME}
+  #   volumes:
+  #     - postgres-db:/var/lib/postgresql/data
 
 volumes:
   postgres-db:

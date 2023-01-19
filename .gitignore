@@ -11,6 +11,7 @@
 *.sln.docstates
 *.egg-info/
 venv/
+.venv/
 .env
 docker-compose.yml
 
