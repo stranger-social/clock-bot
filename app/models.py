@@ -10,12 +10,18 @@ class Post(Base):
     __tablename__ = "posts"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    title = Column(String, nullable=False)
     content = Column(String, nullable=False)
+    sensitive = Column(Boolean, server_default="False", nullable=False)
+    spoiler_text = Column(String, nullable=True)
+    visibility = Column(String, nullable=False, default="unlisted")
+    crontab_schedule = Column(String, nullable=False)
+    next_run = Column(TIMESTAMP(timezone=False), nullable=True)
     published = Column(Boolean, server_default="True", nullable=False)
-    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+    created_at = Column(TIMESTAMP(timezone=False), nullable=False, server_default=text('now()'))
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     owner = relationship("User")
+    bot_token_id = Column(Integer, ForeignKey("bot_tokens.id", ondelete="CASCADE"), nullable=True)
+    bot_token = relationship("BotToken", back_populates="post")
 
 class User(Base):
     __tablename__ = "users"
@@ -23,13 +29,22 @@ class User(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
-    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))    
+    created_at = Column(TIMESTAMP(timezone=False), nullable=False, server_default=text('now()'))    
     is_active = Column(Boolean, nullable=False, default=True)
     is_admin = Column(Boolean, nullable=False, default=False)
 
-class Vote(Base):
-    __tablename__ = "votes"
+class PostLog(Base):
+    __tablename__ = "post_log"
 
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
-    post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), primary_key=True)
-    
+    id = Column(Integer, primary_key=True, nullable=False)
+    post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), nullable=False)
+    last_posted = Column(TIMESTAMP(timezone=False), nullable=False)
+    post = relationship("Post")
+
+class BotToken(Base):
+    __tablename__ = "bot_tokens"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    token = Column(String, nullable=False)
+    description = Column(String, nullable=True)
+    post = relationship("Post", back_populates="bot_token")

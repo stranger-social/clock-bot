@@ -14,6 +14,7 @@ venv/
 .venv/
 .env
 docker-compose.yml
+*.420_bot
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

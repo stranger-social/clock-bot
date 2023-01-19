@@ -30,6 +30,8 @@ services:
       - POSTGRES_DB=${DATABASE_NAME}
       - POSTGRES_USER=${DATABASE_USERNAME}
       - POSTGRES_PORT=${DATABASE_PORT}
+      - TZ=${TZ}
+
     volumes:
       - postgres-db:/var/lib/postgresql/data
     command:

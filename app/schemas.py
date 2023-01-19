@@ -3,9 +3,14 @@ from pydantic import BaseModel, EmailStr, conint
 from datetime import datetime
 
 class PostBase(BaseModel):
-    title: str
     content: str
+    crontab_schedule: str = "*/5 * * * *"
+    sensitive: bool = False
+    spoiler_text: str = None
+    visibility: str = "direct"
     published: bool = True
+    bot_token_id: int = None
+    
 
 class PostCreate(PostBase):
     pass
@@ -24,6 +29,7 @@ class PostResponse(PostBase):
     id: int
     created_at: datetime
     owner_id: int
+    bot_token_id: Optional[int] = None
     owner: UserResponse
 
     class Config:
@@ -31,7 +37,6 @@ class PostResponse(PostBase):
 
 class PostOut(BaseModel):
     Post: PostResponse
-    votes: int
 
     class Config:
         orm_mode = True
@@ -56,6 +61,20 @@ class ApiToken(BaseModel):
     access_token: str
     token_type: str
 
-class Vote(BaseModel):
-    post_id: int
-    dir: conint(le=1)
+class BotTokenCreate(BaseModel):
+    token: str
+    description: str = None
+
+class BotTokenResponse(BaseModel):
+    id: int
+    token: str
+    description: str = None
+
+    class Config:
+        orm_mode = True
+
+class BotTokenOut(BaseModel):
+    BotToken: BotTokenResponse
+
+    class Config:
+        orm_mode = True

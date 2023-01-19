@@ -1,5 +1,8 @@
 FROM python:3.10.4
 
+ARG TZ=UTC
+ENV TZ=${TZ}
+
 WORKDIR /usr/src/app
 
 COPY requirements.txt ./
