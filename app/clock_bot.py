@@ -155,8 +155,12 @@ async def clear_next_run():
 
 async def clock_bot_main():
     while True:
-        # current_time=datetime.now()
-        # # logger.info(f"clock_bot_main: Current time: {current_time}")
+        # Use croniter to check to generate a heartbeat '*/10 * * * *'
+        schedule = croniter.croniter('*/10 * * * *')
+        next_run = schedule.get_next(datetime)
+        logger.debug(f"clock_bot_main: Next run: {next_run}")
+        if next_run < datetime.now():
+            logger.info(f'clock_bot_main: Heartbeat at {datetime.now()}')
         await check_scheduled_posts()
         await asyncio.sleep(10)
        
