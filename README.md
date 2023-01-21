@@ -51,6 +51,13 @@ The bot can be controlled by visiting http://localhost:8088/docs.  It is designe
 ## TODO
 
 - [X] Add support for multiple bots
+- [X] Include media in posts
+- [ ] Add descriptions and focus to media files
+- [ ] Randmoize posts from list
+- [ ] Randomize posts from list with media
+- [ ] Add keywords to posts to be used in randomization
+- [ ] Add keywords to posts get data from external sources (e.g. API calls)
+- [ ] Add ability to send messages to bot users for error reporting
 - [ ] Include media in posts
 - [ ] Randmoize posts from list
 - [ ] Randomize posts from list with media
@@ -62,6 +69,8 @@ The bot can be controlled by visiting http://localhost:8088/docs.  It is designe
 - [ ] Add ability to offset posts by a random amount of time (e.g. 1-5 minutes)
 - [ ] Add ability to send messages to groups of bots
 - [ ] Add ability to trigger bot based on events (e.g. new follower, new toot, trending hashtag, etc.)
+- [ ] More error handling!!!
+
 
 ## Revisions
 
@@ -69,6 +78,6 @@ The bot can be controlled by visiting http://localhost:8088/docs.  It is designe
 
 - Initial release
 
-### 0.2.0
+### 0.2.1
 
-- Add media to posts
+- Add media to post
