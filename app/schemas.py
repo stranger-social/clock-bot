@@ -10,6 +10,7 @@ class PostBase(BaseModel):
     visibility: str = "direct"
     published: bool = True
     bot_token_id: int = None
+    media_path: str = None
     
 
 class PostCreate(PostBase):
@@ -30,6 +31,7 @@ class PostResponse(PostBase):
     created_at: datetime
     owner_id: int
     bot_token_id: Optional[int] = None
+    media_path: Optional[str] = None
     owner: UserResponse
 
     class Config:

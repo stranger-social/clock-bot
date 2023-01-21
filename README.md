@@ -41,3 +41,34 @@ ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=2
 TZ=UTC # Do not change this
 ```
+
+## Usage
+
+### Controls
+
+The bot can be controlled by visiting http://localhost:8088/docs.  It is designed to be operated from an external application, such as a mobile app.  The docs allow you full access to all the features of the bot. Including admin functions and user control. Refer to the docs for more information.
+
+## TODO
+
+- [X] Add support for multiple bots
+- [ ] Include media in posts
+- [ ] Randmoize posts from list
+- [ ] Randomize posts from list with media
+- [ ] Send manual posts
+- [ ] Silence individual bots accounts for a period of time
+- [ ] Silence individual bots accounts permanently
+- [ ] Adjust timezones for individual bots
+- [ ] Schedule posts for individual bots without using cron
+- [ ] Add ability to offset posts by a random amount of time (e.g. 1-5 minutes)
+- [ ] Add ability to send messages to groups of bots
+- [ ] Add ability to trigger bot based on events (e.g. new follower, new toot, trending hashtag, etc.)
+
+## Revisions
+
+### 0.1.0
+
+- Initial release
+
+### 0.2.0
+
+- Add media to posts

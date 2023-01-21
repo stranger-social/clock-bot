@@ -22,6 +22,7 @@ class Post(Base):
     owner = relationship("User")
     bot_token_id = Column(Integer, ForeignKey("bot_tokens.id", ondelete="CASCADE"), nullable=True)
     bot_token = relationship("BotToken", back_populates="post")
+    media_path = Column(String, nullable=True)
 
 class User(Base):
     __tablename__ = "users"
