@@ -106,6 +106,7 @@ async def post_status(post):
                 # Post status
                 headers = {
                 "Authorization": f"Bearer {bot_token}",
+                "Content-Type": "application/json"
                 }
                 # Conver payload to json
                 data = json.dumps({
@@ -167,6 +168,10 @@ async def get_bot_token(bot_token_id):
 # POST /api/v2/media HTTP/1.1
 # https://docs.joinmastodon.org/methods/media/
 async def upload_media(post):
+    # check if media_path in post is not null or empty
+    if post.media_path == None:
+        logger.error(f"upload_media: Post {post.id} media_path is Null")
+        return None
     try:
         logger.debug(f"upload_media: Uploading media for post {post.id} media_path {post.media_path}")
         # with the media_path open check file has has a mime type and upload media
@@ -192,7 +197,30 @@ async def upload_media(post):
                         # extract id from json response
                         media_id = (await response.json())['id']
                         logger.debug(f"upload_media: Media uploaded successfully for post {post.id} media_id {media_id}")
-                        return media_id
+                        # return media_id
+                        # if 202 then media is still processing
+                        # GET /api/v1/media/:id HTTP/1.1
+                        if response.status == 202:
+                            logger.warning(f"upload_media: Media still processing for post {post.id} media_path {post.media_path} media_mime_type {media_mime_type}")
+                            # while media is still processing wait 5 seconds and try again
+                            while response.status == 202 or response.status == 206:
+                                await asyncio.sleep(5)
+                                async with aiohttp.ClientSession() as session:
+                                    async with session.get(f"{settings.mastodon_base_url}/api/v1/media/{media_id}", headers=headers) as response:
+                                        if response.status == 200:
+                                            # logger debug response
+                                            logger.debug(f"upload_media: Response for post {post.id} media_path {post.media_path} media_mime_type {media_mime_type} {await response.text()}")
+                                            # extract id from json response
+                                            media_id = (await response.json())['id']
+                                            logger.debug(f"upload_media: Media uploaded successfully for post {post.id} media_id {media_id}")
+                                            return media_id
+                                        elif response.status == 206:
+                                            logger.warning(f"upload_media: Media still processing for post {post.id} media_path {post.media_path} media_mime_type {media_mime_type}")
+                                        else:
+                                            logger.error(f"upload_media: Error uploading media for post {post.id} media_path {post.media_path} media_mime_type {media_mime_type}")
+                                            return None
+                        else:
+                            return media_id
                     elif response.status == 422:
                         logger.error(f"upload_media: Error uploading media for post {post.id} media_path {post.media_path} media_mime_type {media_mime_type}")
                         return None
