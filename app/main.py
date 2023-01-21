@@ -21,12 +21,16 @@ logger.addHandler(handler)
 
 description = """
 The clock-bot is a Mastodon bot that schedules repeating posts based on cron expressions.
+This bot will allow you to schedule on a repeating schedule, discreetly to multiple Mastodon accounts.
+Media files can be added to the post, and the bot will automatically upload the media to the Mastodon instance.
+
+This bot is intended to be controlled via an API and can be used in conjunction with the clock-bot openapi documentation.
 """
 
 app = FastAPI(
     title="clock-bot",
     description=description,
-    version="0.1.0",
+    version="0.2.0",
     contact={
         "name": "azcoigreach",
         "url": "https://strangerproduction.com",
