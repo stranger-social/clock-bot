@@ -49,3 +49,21 @@ class BotToken(Base):
     token = Column(String, nullable=False)
     description = Column(String, nullable=True)
     post = relationship("Post", back_populates="bot_token")
+
+class List(Base):
+    __tablename__ = "list_ids"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    title = Column(String(255), nullable=False)
+    date_created = Column(TIMESTAMP(timezone=False), nullable=False, server_default=text('now()'))
+    date_updated = Column(TIMESTAMP(timezone=False), nullable=True)
+
+class ListContent(Base):
+    __tablename__ = "list_content"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    list_id = Column(Integer, ForeignKey("list_ids.id", ondelete="CASCADE"), nullable=False)
+    item_id = Column(Integer, nullable=False)
+    content = Column(String(255), nullable=False)
+    date_added = Column(TIMESTAMP(timezone=False), nullable=False, server_default=text('now()'))
+    date_last_used = Column(TIMESTAMP(timezone=False), nullable=True)

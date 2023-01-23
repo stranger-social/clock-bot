@@ -53,13 +53,13 @@ The bot can be controlled by visiting http://localhost:8088/docs.  It is designe
 - [X] Add support for multiple bots
 - [X] Include media in posts
 - [ ] Add descriptions and focus to media files
-- [ ] Randmoize posts from list
+- [X] Randmoize posts from list
 - [ ] Randomize posts from list with media
-- [ ] Add keywords to posts to be used in randomization
-- [ ] Add keywords to posts get data from external sources (e.g. API calls)
+- [X] Add keywords to posts to be used in randomization
+- [X] Add keywords to posts get data from external sources (e.g. API calls)
 - [ ] Add ability to send messages to bot users for error reporting
 - [ ] Include media in posts
-- [ ] Randmoize posts from list
+- [X] Randmoize posts from list
 - [ ] Randomize posts from list with media
 - [ ] Send manual posts
 - [ ] Silence individual bots accounts for a period of time
@@ -81,3 +81,11 @@ The bot can be controlled by visiting http://localhost:8088/docs.  It is designe
 ### 0.2.1
 
 - Add media to post
+
+### 0.2.2
+
+- Use functions in posts
+  - list_random - Randomly select a post from a list
+  - list_static - Select a post from a list
+  - dynamic - Get data from external source (e.g. API call)
+

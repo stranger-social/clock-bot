@@ -52,6 +52,9 @@ async def get_bot_tokens(
 
 @router.post("/tokens", status_code=status.HTTP_201_CREATED, response_model=schemas.BotTokenResponse, description="Create a bot token [must be logged in]")
 async def create_bot_token(token: schemas.BotTokenCreate, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"Admin user required")
     if not current_user.is_active:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"User {str(current_user.username)} is not active.")
@@ -75,6 +78,9 @@ async def get_bot_token_by_id(token_id: int, db: Session = Depends(get_db), curr
 
 @router.put("/tokens/{token_id}", status_code=status.HTTP_202_ACCEPTED, response_model=schemas.BotTokenResponse, description="Update a bot token by id [must be logged in]")
 async def update_bot_token(token_id: int, token: schemas.BotTokenCreate, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"Admin user required")
     if not current_user.is_active:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"User {str(current_user.username)} is not active.")
@@ -90,6 +96,9 @@ async def update_bot_token(token_id: int, token: schemas.BotTokenCreate, db: Ses
 
 @router.delete("/tokens/{token_id}", status_code=status.HTTP_204_NO_CONTENT, description="Delete a bot token by id [must be logged in]")
 async def delete_bot_token(token_id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"Admin user required")
     if not current_user.is_active:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"User {str(current_user.username)} is not active.")
