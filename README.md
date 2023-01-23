@@ -77,3 +77,10 @@ The bot can be controlled by visiting http://localhost:8088/docs.  It is designe
 ### 0.2.1
 
 - Add media to posts
+
+### 0.2.2
+
+- Use functions in posts
+  - list_random - Randomly select a post from a list
+  - list_static - Select a post from a list
+  - dynamic - Get data from external source (e.g. API call)

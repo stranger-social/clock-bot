@@ -74,6 +74,9 @@ def get_user(
     if not current_user.is_admin:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"Admin user required")
+    elif not current_user.is_active:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"User {str(current_user.username)} is not active.")
     else:
         user = db.query(models.User).filter(models.User.id == id).first()
         if not user:
@@ -96,6 +99,9 @@ def get_users(
     if not current_user.is_admin:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"Admin user required")
+    elif not current_user.is_active:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"User {str(current_user.username)} is not active.")
     else:
         users = db.query(models.User).all()
         if not users:
@@ -120,6 +126,9 @@ def toggle_active(
     if not current_user.is_admin:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"Admin user required")
+    elif not current_user.is_active:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"User {str(current_user.username)} is not active.")
     else:
         user = db.query(models.User).filter(models.User.id == id).first()
         if not user:
@@ -154,6 +163,9 @@ def toggle_admin(
     if not current_user.is_admin:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"Admin user required")
+    elif not current_user.is_active:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"User {str(current_user.username)} is not active.")
     else:
         user = db.query(models.User).filter(models.User.id == id).first()
         if not user:
@@ -187,6 +199,9 @@ def delete_user(
     if not current_user.is_admin:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"Admin user required")
+    elif not current_user.is_active:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"User {str(current_user.username)} is not active.")
     else:
         user = db.query(models.User).filter(models.User.id == id).first()
         if not user:
@@ -215,6 +230,9 @@ def generate_token(
     if not current_user.is_admin:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"Admin user required")
+    elif not current_user.is_active:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"User {str(current_user.username)} is not active.")
     else:
         user = db.query(models.User).filter(models.User.id == id).first()
         if not user:

@@ -1,8 +1,6 @@
-import os 
-
 from .config import settings
 from .database import get_db
-from . import models, schemas
+from . import models, schemas, clock_post_commands
 
 from datetime import datetime
 from fastapi import Depends
@@ -77,6 +75,7 @@ async def update_next_run(post):
         logger.error(f"update_next_run: {e}")
 
 
+
 async def post_status(post):
     try:
         logger.debug(f"post_status: Checking post {post.id} status")
@@ -103,6 +102,8 @@ async def post_status(post):
                 else:
                     media_ids = None
                     logger.debug(f"post_status: Post {post.id} has no media_path.  Not uploading media")
+                # Check for commands in post.content
+                post = await clock_post_commands.check_post_commands(post)                
                 # Post status
                 headers = {
                 "Authorization": f"Bearer {bot_token}",
@@ -169,7 +170,7 @@ async def get_bot_token(bot_token_id):
 # https://docs.joinmastodon.org/methods/media/
 async def upload_media(post):
     # check if media_path in post is not null or empty
-    if post.media_path == None:
+    if post.media_path == None or post.media_path == "":
         logger.error(f"upload_media: Post {post.id} media_path is Null")
         return None
     try:

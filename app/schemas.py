@@ -80,3 +80,47 @@ class BotTokenOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+class ListBase(BaseModel):
+    title: str
+
+class ListCreate(ListBase):
+    pass
+
+class ListResponse(ListBase):
+    id: int
+    date_created: datetime
+    date_updated: Optional[datetime]
+    class Config:
+        orm_mode = True
+
+class ListOut(BaseModel):
+    List: ListResponse
+
+    class Config:
+        orm_mode = True
+
+class ListContentBase(BaseModel):
+    item_id: int
+    content: str
+
+class ListContentCreate(ListContentBase):
+    pass
+
+class ListContentResponse(ListContentBase):
+    id: int
+    list_id: int
+    date_added: datetime
+    date_last_used: Optional[datetime]
+
+    class Config:
+        orm_mode = True
+
+class ListContentOut(BaseModel):
+    ListContent: ListContentResponse
+
+    class Config:
+        orm_mode = True
+
+
+
