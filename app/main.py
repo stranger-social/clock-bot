@@ -1,4 +1,5 @@
 import sys
+import asyncio
 
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
@@ -59,6 +60,7 @@ app = FastAPI(
         "email": "azcoigreach@strangerproduction.com",
     },
     docs_url="/docs", redoc_url=None,
+    background_tasks=BackgroundTasks,
 )
 
 origins = ["*"] # Configured for public API
@@ -83,7 +85,7 @@ async def startup_event():
     logger.debug("clock-bot debug mode")
     background_tasks = BackgroundTasks()
     await clock_bot.clear_next_run()
-    background_tasks.add_task(clock_bot.clock_bot_main)
+    background_tasks.add_task(asyncio.create_task(clock_bot.clock_bot_main()))
     # List background tasks in debug mode
     logger.debug(f"background_tasks: {background_tasks}")
     logger.info("clock-bot started")
