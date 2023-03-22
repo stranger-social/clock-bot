@@ -58,7 +58,6 @@ The bot can be controlled by visiting http://localhost:8088/docs.  It is designe
 - [X] Add keywords to posts to be used in randomization
 - [X] Add keywords to posts get data from external sources (e.g. API calls)
 - [ ] Add ability to send messages to bot users for error reporting
-- [ ] Include media in posts
 - [X] Randmoize posts from list
 - [ ] Randomize posts from list with media
 - [ ] Send manual posts
@@ -88,3 +87,7 @@ The bot can be controlled by visiting http://localhost:8088/docs.  It is designe
   - list_random - Randomly select a post from a list
   - list_static - Select a post from a list
   - dynamic - Get data from external source (e.g. API call)
+
+### 0.2.3
+
+- Add database prefix to tables

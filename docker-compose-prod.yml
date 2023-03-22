@@ -1,7 +1,7 @@
 version: "3"
 services:
   api:
-    image: azcoigreach/python-api
+    image: azcoigreach/clock-bot:latest
     ports:
       - ${API_PORT}:8000
     environment:
@@ -25,5 +25,5 @@ services:
   #   volumes:
   #     - postgres-db:/var/lib/postgresql/data
 
-volumes:
-  postgres-db:
+# volumes:
+#   postgres-db:

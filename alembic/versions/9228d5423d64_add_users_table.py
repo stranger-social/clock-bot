@@ -8,6 +8,8 @@ Create Date: 2023-01-19 05:34:48.509856
 from alembic import op
 import sqlalchemy as sa
 
+from app.config import settings
+
 
 # revision identifiers, used by Alembic.
 revision = '9228d5423d64'
@@ -17,7 +19,7 @@ depends_on = None
 
 
 def upgrade():
-    op.create_table('users',
+    op.create_table(f'{settings.database_table_prefix}users',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('email', sa.String(), nullable=False),
                     sa.Column('password', sa.String(), nullable=False),
@@ -32,5 +34,5 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_table('users')
+    op.drop_table(f'{settings.database_table_prefix}users')
     pass

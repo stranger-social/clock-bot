@@ -8,6 +8,7 @@ Create Date: 2023-01-19 21:52:37.698068
 from alembic import op
 import sqlalchemy as sa
 
+from app.config import settings
 
 # revision identifiers, used by Alembic.
 revision = '572b17cafccb'
@@ -17,20 +18,17 @@ depends_on = None
 
 
 def upgrade():
-    op.create_table('bot_tokens',
+    op.create_table(f'{settings.database_table_prefix}bot_tokens',
         sa.Column('id', sa.Integer(), nullable=False, primary_key=True),
         sa.Column('description', sa.String(), nullable=False),
         sa.Column('token', sa.String(), nullable=False),
         sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False)
     )
-    op.add_column('posts', sa.Column('bot_token_id', sa.Integer(), sa.ForeignKey('bot_tokens.id')))
-
-    pass
+    op.add_column(f'{settings.database_table_prefix}posts', sa.Column('bot_token_id', sa.Integer(), sa.ForeignKey(f'{settings.database_table_prefix}bot_tokens.id')))
 
 
 def downgrade():
     # drop table bot_tokens
-    op.drop_table('bot_tokens')
+    op.drop_table(f'{settings.database_table_prefix}bot_tokens')
     # drop column bot_token_id from posts
-    op.drop_column('posts', 'bot_token_id')
-    pass
+    op.drop_column(f'{settings.database_table_prefix}posts', 'bot_token_id')

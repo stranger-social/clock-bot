@@ -9,6 +9,8 @@ from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
+from app.config import settings
+
 
 # revision identifiers, used by Alembic.
 revision = '1b7c0c78af8d'
@@ -18,7 +20,7 @@ depends_on = None
 
 
 def upgrade():
-    op.create_table('posts',
+    op.create_table(f'{settings.database_table_prefix}posts',
     sa.Column('id', sa.Integer(), nullable = False, primary_key=True),
     sa.Column('content', sa.String(), nullable=False),
     sa.Column("sensitive", sa.Boolean(), server_default="False", nullable=False),
@@ -30,11 +32,10 @@ def upgrade():
     sa.Column('created_at', postgresql.TIMESTAMP(timezone=False), server_default=sa.text('now()'), nullable=False),
     sa.Column('owner_id', sa.Integer(), nullable=False)
     )
-    op.create_foreign_key('posts_owner_id_fkey', source_table='posts', referent_table="users", local_cols=[
+    op.create_foreign_key(f'{settings.database_table_prefix}posts_owner_id_fkey', source_table=f'{settings.database_table_prefix}posts', referent_table=f'{settings.database_table_prefix}users', local_cols=[
                           'owner_id'], remote_cols=['id'], ondelete="CASCADE")
-    op.create_index('ix_crontab_schedule', 'posts', ['crontab_schedule'], unique=False)
-    pass
+    op.create_index('ix_crontab_schedule', f'{settings.database_table_prefix}posts', ['crontab_schedule'], unique=False)
+
 
 def downgrade():
-    op.drop_table('posts')
-    pass
+    op.drop_table(f'{settings.database_table_prefix}posts')

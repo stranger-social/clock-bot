@@ -4,10 +4,11 @@ from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.orm import relationship
 
+from .config import settings
 from .database import Base
 
 class Post(Base):
-    __tablename__ = "posts"
+    __tablename__ = f"{settings.database_table_prefix}posts"
 
     id = Column(Integer, primary_key=True, nullable=False)
     content = Column(String, nullable=False)
@@ -25,7 +26,7 @@ class Post(Base):
     media_path = Column(String, nullable=True)
 
 class User(Base):
-    __tablename__ = "users"
+    __tablename__ = f"{settings.database_table_prefix}users"
 
     id = Column(Integer, primary_key=True, nullable=False)
     email = Column(String, nullable=False, unique=True)
@@ -35,7 +36,7 @@ class User(Base):
     is_admin = Column(Boolean, nullable=False, default=False)
 
 class PostLog(Base):
-    __tablename__ = "post_log"
+    __tablename__ = f"{settings.database_table_prefix}post_log"
 
     id = Column(Integer, primary_key=True, nullable=False)
     post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), nullable=False)
@@ -43,7 +44,7 @@ class PostLog(Base):
     post = relationship("Post")
 
 class BotToken(Base):
-    __tablename__ = "bot_tokens"
+    __tablename__ = f"{settings.database_table_prefix}bot_tokens"
 
     id = Column(Integer, primary_key=True, nullable=False)
     token = Column(String, nullable=False)
@@ -51,7 +52,7 @@ class BotToken(Base):
     post = relationship("Post", back_populates="bot_token")
 
 class List(Base):
-    __tablename__ = "list_ids"
+    __tablename__ = f"{settings.database_table_prefix}list_ids"
 
     id = Column(Integer, primary_key=True, nullable=False)
     title = Column(String(255), nullable=False)
@@ -59,7 +60,7 @@ class List(Base):
     date_updated = Column(TIMESTAMP(timezone=False), nullable=True)
 
 class ListContent(Base):
-    __tablename__ = "list_content"
+    __tablename__ = f"{settings.database_table_prefix}list_content"
 
     id = Column(Integer, primary_key=True, nullable=False)
     list_id = Column(Integer, ForeignKey("list_ids.id", ondelete="CASCADE"), nullable=False)

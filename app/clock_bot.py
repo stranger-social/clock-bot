@@ -88,8 +88,11 @@ async def post_status(post):
                 logger.error(f"post_status: Post {post.id} bot_token is Null")
                 return False
             else:
+                # POST ASSEMBLY --------------------------------------
+                # Check for commands in post
+                post = await clock_post_commands.check_post_commands(post)  
                 # Check for media_path and upload media if it exists
-                if post.media_path != None:
+                if post.media_path != None or post.media_path != "":
                     logger.debug(f"post_status: Post {post.id} has media_path.  Uploading media")
                     media_id = await upload_media(post)
                     # add media_id to media_ids list
@@ -103,8 +106,10 @@ async def post_status(post):
                     media_ids = None
                     logger.debug(f"post_status: Post {post.id} has no media_path.  Not uploading media")
                 # Check for commands in post.content
-                post = await clock_post_commands.check_post_commands(post)                
-                # Post status
+                  
+
+                # MASTODON API --------------------------------------            
+                # Post status to Mastodon
                 headers = {
                 "Authorization": f"Bearer {bot_token}",
                 "Content-Type": "application/json"
@@ -138,6 +143,7 @@ async def post_status(post):
                                 logger.error(f"post_status: Status {post.id} not posted.  Response status: {response.status}")
                                 logger.debug(f"post_status: Status {post.id} response: {await response.json()}")
                                 return False
+
     except Exception as e:
         logger.error(f"post_status: {e}")
 

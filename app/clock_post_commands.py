@@ -140,3 +140,29 @@ async def dynamic(endpoint: str, key: str):
     except Exception as e:
         logger.error(f"dynamic: {e}")
         return False
+
+# Function to get randmon media from a list
+# Variables passed to fucntion are:
+# 1. list_id of media list
+async def media_random(list_id: int):
+    try:
+        with get_db() as db:
+            logger.debug(f'media_random: Getting random media from database for list ID {str(list_id)}')
+            db_list = db.query(models.List).filter(models.List.id == list_id).first()
+            if not db_list:
+                logger.error(f'media_random: List with ID {str(list_id)} was not found.')
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                                    detail=f"List with ID {str(list_id)} was not found.")
+            else:
+                db_list_content = db.query(models.ListContent).filter(models.ListContent.list_id == list_id).all()
+                if not db_list_content:
+                    logger.error(f'media_random: List with ID {str(list_id)} has no content.')
+                    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                                        detail=f"List with ID {str(list_id)} has no content.")
+                else:
+                    random_item = random.choice(db_list_content)
+                    logger.debug(f'media_random: Random item from list ID {str(list_id)} is {random_item.content}')
+                    return str(random_item.content)
+    except Exception as e:
+        logger.error(f"media_random: {e}")
+        return False
