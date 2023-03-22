@@ -44,6 +44,13 @@ TZ=UTC # Do not change this
 
 ## Usage
 
+### Posts
+
+Dyanmic content and lists can be created by using the following functions:
+{{dynamic: [url] , [key]}}
+{{list_static: [list] , [index]}}
+{{list_random: [list]}}
+
 ### Controls
 
 The bot can be controlled by visiting http://localhost:8088/docs.  It is designed to be operated from an external application, such as a mobile app.  The docs allow you full access to all the features of the bot. Including admin functions and user control. Refer to the docs for more information.
