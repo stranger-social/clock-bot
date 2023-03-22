@@ -106,10 +106,10 @@ async def post_status(post):
                     media_ids = None
                     logger.debug(f"post_status: Post {post.id} has no media_path.  Not uploading media")
                 # Check for commands in post.content
-                  
 
                 # MASTODON API --------------------------------------            
                 # Post status to Mastodon
+
                 headers = {
                 "Authorization": f"Bearer {bot_token}",
                 "Content-Type": "application/json"

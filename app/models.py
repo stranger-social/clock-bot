@@ -53,7 +53,6 @@ class BotToken(Base):
 
 class List(Base):
     __tablename__ = f"{settings.database_table_prefix}list_ids"
-
     id = Column(Integer, primary_key=True, nullable=False)
     title = Column(String(255), nullable=False)
     date_created = Column(TIMESTAMP(timezone=False), nullable=False, server_default=text('now()'))
@@ -61,7 +60,6 @@ class List(Base):
 
 class ListContent(Base):
     __tablename__ = f"{settings.database_table_prefix}list_content"
-
     id = Column(Integer, primary_key=True, nullable=False)
     list_id = Column(Integer, ForeignKey("list_ids.id", ondelete="CASCADE"), nullable=False)
     item_id = Column(Integer, nullable=False)

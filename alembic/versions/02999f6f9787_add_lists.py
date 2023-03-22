@@ -11,7 +11,6 @@ import sqlalchemy as sa
 from app.config import settings
 from sqlalchemy.dialects import postgresql
 
-
 # revision identifiers, used by Alembic.
 revision = '02999f6f9787'
 down_revision = '2503c81f3daf'
@@ -27,8 +26,6 @@ def upgrade():
         sa.Column('date_created', postgresql.TIMESTAMP(timezone=False), server_default=sa.text('now()'), nullable=False),
         sa.Column('date_updated', postgresql.TIMESTAMP(timezone=False), onupdate=sa.text('now()'), nullable=True)
     )
-
-    
     op.create_table(
         f'{settings.database_table_prefix}list_content',
         sa.Column('id', sa.Integer, primary_key=True),
@@ -38,8 +35,8 @@ def upgrade():
         sa.Column('date_added', postgresql.TIMESTAMP(timezone=False), server_default=sa.text('now()'), nullable=False),
         sa.Column('date_last_used', postgresql.TIMESTAMP(timezone=False), nullable=True),
     )
-
-
+    
+    
 def downgrade():
     op.drop_table(f'{settings.database_table_prefix}list_content')
     op.drop_table(f'{settings.database_table_prefix}list_ids')
