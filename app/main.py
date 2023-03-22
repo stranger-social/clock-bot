@@ -84,6 +84,8 @@ async def startup_event():
     background_tasks = BackgroundTasks()
     await clock_bot.clear_next_run()
     background_tasks.add_task(clock_bot.clock_bot_main)
+    # List background tasks in debug mode
+    logger.debug(f"background_tasks: {background_tasks}")
     logger.info("clock-bot started")
 
 @app.get("/")
