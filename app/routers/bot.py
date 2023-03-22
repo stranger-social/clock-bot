@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from app import oauth2, clock_bot
 from .. import models, schemas, oauth2
-from fastapi import APIRouter, HTTPException, Response, status, Depends, BackgroundTasks
+from fastapi import APIRouter, HTTPException, Response, status, Depends
 from sqlalchemy.orm import Session
 from ..database import get_db
 
@@ -14,29 +14,6 @@ router = APIRouter(
     prefix="/bot",
     tags=['Bot Controls']
 )
-
-is_running = False
-
-# Start the clock-bot
-@router.post("/start", status_code=status.HTTP_200_OK, description="Start the clock-bot [bot does not run automatically on startup]")
-async def start_clock_bot(
-    background_tasks: BackgroundTasks,
-    current_user: int = Depends(oauth2.get_current_user)
-    ):
-    if not current_user.is_active:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                            detail=f"User {str(current_user.username)} is not active.")
-    else:
-        global is_running
-        if not is_running:
-            logger.info("clock-bot started")
-            await clock_bot.clear_next_run()
-            background_tasks.add_task(clock_bot.clock_bot_main)
-            is_running = True
-            return {"message": "clock-bot started"}
-        else:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                                detail=f"clock-bot is already running.")
 
 #  Endpoints to get, create, get_by_id, update, and delete bot_tokens
 @router.get("/tokens", response_model=List[schemas.BotTokenResponse], description="Get all bot tokens [must be logged in]")

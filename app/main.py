@@ -78,8 +78,11 @@ app.include_router(admin.router)
 app.include_router(auth.router)
 
 @app.on_event("startup")
-async def startup_event():
-    pass
+async def startup_event(background_tasks: BackgroundTasks):
+    # Start clock-bot
+    logger.info("clock-bot started")
+    await clock_bot.clear_next_run()
+    background_tasks.add_task(clock_bot.clock_bot_main)
 
 @app.get("/")
 async def root():
