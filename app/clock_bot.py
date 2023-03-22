@@ -248,6 +248,7 @@ async def clear_next_run():
 
 async def clock_bot_main():
     while True:
+        logger.debug("clock_bot_main: Checking for scheduled posts")
         await check_scheduled_posts()
         await asyncio.sleep(10)
        

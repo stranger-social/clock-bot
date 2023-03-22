@@ -80,11 +80,9 @@ app.include_router(auth.router)
 # Startup function to start the bot as a background task
 @app.on_event("startup")
 async def startup_event():
-    logger.info("Starting bot")
     background_tasks = BackgroundTasks()
     background_tasks.add_task(clock_bot.clock_bot_main)
-    return {"message": "clock-bot started"}
-
+    logger.info("Starting bot")
 
 @app.get("/")
 async def root():
